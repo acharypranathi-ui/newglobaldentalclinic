@@ -63,9 +63,12 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
         navLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === `#${sectionId}`) {
-            link.classList.add('active');
+          const href = link.getAttribute('href');
+          if (href && href.startsWith('#')) {
+            link.classList.remove('active');
+            if (href === `#${sectionId}`) {
+              link.classList.add('active');
+            }
           }
         });
       }
@@ -434,16 +437,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Clear errors when typing
   [inputName, inputPhone, inputEmail, inputConcern].forEach(input => {
-    input.addEventListener('focus', () => {
-      // Find the corresponding error span
-      let errorSpan;
-      if (input === inputName) errorSpan = errorName;
-      if (input === inputPhone) errorSpan = errorPhone;
-      if (input === inputEmail) errorSpan = errorEmail;
-      if (input === inputConcern) errorSpan = errorConcern;
-      
-      hideError(input, errorSpan);
-    });
+    if (input) {
+      input.addEventListener('focus', () => {
+        // Find the corresponding error span
+        let errorSpan;
+        if (input === inputName) errorSpan = errorName;
+        if (input === inputPhone) errorSpan = errorPhone;
+        if (input === inputEmail) errorSpan = errorEmail;
+        if (input === inputConcern) errorSpan = errorConcern;
+        
+        hideError(input, errorSpan);
+      });
+    }
   });
 
   // Simulated API post request
@@ -496,4 +501,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+
+
 });
+
